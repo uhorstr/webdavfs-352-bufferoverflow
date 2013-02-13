@@ -1076,8 +1076,8 @@ void parser_opendir_add(void *ctx, const xmlChar *localname, int length)
 static void parser_lock_add(void *ctx, const xmlChar *localname, int length)
 {
 	webdav_parse_lock_struct_t *lock_struct = (webdav_parse_lock_struct_t *)ctx;
-	UInt8 *text_ptr = malloc(length);
-	bzero(text_ptr,length);
+	UInt8 *text_ptr = malloc(length+1);
+	bzero(text_ptr,length+1);
 	memcpy(text_ptr,localname,length);
 	UInt8* ch = NULL;
 	
@@ -1089,9 +1089,6 @@ static void parser_lock_add(void *ctx, const xmlChar *localname, int length)
 		 * found the token and we have found the href indicating
 		 * that the locktoken is coming so squirrel it away.
 		 */
-		
-		/* null terminate the string */
-		text_ptr[length] = '\0';
 		
 		// Trim trailing whitespace
 		ch = &text_ptr[length-1];
